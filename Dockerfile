@@ -26,4 +26,4 @@ COPY --from=build /app/server server
 
 CMD ["./server"]
 
-EXPOSE 9090
+EXPOSE 9292
