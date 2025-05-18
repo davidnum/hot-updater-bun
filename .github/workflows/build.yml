@@ -38,3 +38,9 @@ jobs:
                 push: true
                 tags: ${{ steps.meta.outputs.tags }}
                 labels: ${{ steps.meta.outputs.labels }}
+                
+            - name: Trigger Deploy Workflow
+              uses: peter-evans/workflow-dispatch@v1
+              with:
+                workflow: deploy.yml
+                token: ${{ secrets.GITHUB_TOKEN }}
