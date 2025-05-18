@@ -1,0 +1,15 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    image: hot-updater-bun
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./external:/app/external
+    environment:
+      - NODE_ENV=production
+      - PORT=9090
+      - UPLOADS_DIR=external/uploads
+      - DB_PATH=external/app.db

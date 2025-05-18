@@ -1,0 +1,1 @@
+Hot updater server made with Deno and ElysiaJS
