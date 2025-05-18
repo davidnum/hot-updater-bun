@@ -1,7 +1,8 @@
 services:
   app:
-    build: .
-    image: hot-updater-bun
+    image: ${IMAGE_REF}
+    container_name: hot-update-bun
+    restart: always
     ports:
       - "9292:9292"
     volumes:
