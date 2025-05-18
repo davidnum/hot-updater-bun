@@ -5,11 +5,11 @@ services:
     build: .
     image: hot-updater-bun
     ports:
-      - "9090:9090"
+      - "9292:9292"
     volumes:
       - ./assets:/app/assets
     environment:
       - NODE_ENV=production
-      - PORT=9090
+      - PORT=9292
       - UPLOADS_DIR=assets/uploads
       - DB_PATH=assets/app.db
