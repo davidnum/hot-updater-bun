@@ -7,9 +7,9 @@ services:
     ports:
       - "9090:9090"
     volumes:
-      - ./external:/app/external
+      - ./assets:/app/assets
     environment:
       - NODE_ENV=production
       - PORT=9090
-      - UPLOADS_DIR=external/uploads
-      - DB_PATH=external/app.db
+      - UPLOADS_DIR=assets/uploads
+      - DB_PATH=assets/app.db

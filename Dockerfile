@@ -10,11 +10,6 @@ RUN bun install
 
 COPY ./src ./src
 
-# ENV NODE_ENV=production
-# ENV PORT=9090
-# ENV UPLOADS_DIR=external/uploads
-# ENV DB_PATH=external/app.db
-
 RUN bun build \
 	--compile \
 	--minify-whitespace \
@@ -28,8 +23,6 @@ FROM gcr.io/distroless/base
 WORKDIR /app
 
 COPY --from=build /app/server server
-
-# ENV NODE_ENV=production
 
 CMD ["./server"]
 
