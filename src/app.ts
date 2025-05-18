@@ -33,13 +33,12 @@ new Elysia()
       whiteList: ['/swagger', '/checkUpdate', '/files'],
     })
   )
-  .get('/', () => 'pong')
   .post(
     '/uploadBundle',
-    async ({ body: { bundleId, file } }) => {
+    async ({ body: { bundleId, file }, request }) => {
       await fileStorage.saveFile(bundleId, file);
       return {
-        key: makeFileUrl(bundleId),
+        key: makeFileUrl(bundleId, request.url),
         bucketName: 'local',
       };
     },
@@ -140,7 +139,7 @@ new Elysia()
   )
   .get(
     '/checkUpdate',
-    ({ headers }) => {
+    ({ headers, request }) => {
       const platform = headers['x-app-platform'];
       // const version = headers['x-app-version'];
       const bundleId = headers['x-bundle-id'];
@@ -160,7 +159,7 @@ new Elysia()
         return {
           ...updateCandidate,
           shouldForceUpdate: !!updateCandidate.shouldForceUpdate,
-          fileUrl: makeFileUrl(updateCandidate.id),
+          fileUrl: makeFileUrl(updateCandidate.id, request.url),
         };
       }
       const rollbackCandidate = repo.getRollbackCandidate({ platform, bundleId, minBundleId, channel, appVersionList });
@@ -169,7 +168,7 @@ new Elysia()
         return {
           ...rollbackCandidate,
           shouldForceUpdate: !!rollbackCandidate.shouldForceUpdate,
-          fileUrl: makeFileUrl(rollbackCandidate.id),
+          fileUrl: makeFileUrl(rollbackCandidate.id, request.url),
         };
       }
 
@@ -180,7 +179,7 @@ new Elysia()
           id: NIL_UUID,
           shouldForceUpdate: true,
           message: null,
-          status: 'ROLLBACK',
+          status: 'ROLLBACK' as const,
           fileUrl: null,
         };
       }
@@ -206,4 +205,7 @@ new Elysia()
       ),
     }
   )
-  .listen(Config.APP_PORT);
+  .listen({
+    hostname: Config.APP_HOST,
+    port: Config.APP_PORT,
+  });
