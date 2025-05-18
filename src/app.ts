@@ -209,3 +209,6 @@ new Elysia()
     hostname: Config.APP_HOST,
     port: Config.APP_PORT,
   });
+
+// eslint-disable-next-line no-console
+console.log(`Server is running at ${Config.APP_HOST}:${Config.APP_PORT}`);
