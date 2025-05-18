@@ -13,3 +13,4 @@ services:
       - APP_HOST=0.0.0.0
       - UPLOADS_DIR=assets/uploads
       - DB_PATH=assets/app.db
+      - SECRET=your_secret_key
