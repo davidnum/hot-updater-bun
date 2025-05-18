@@ -1,5 +1,3 @@
-version: "3.8"
-
 services:
   app:
     build: .
@@ -11,5 +9,6 @@ services:
     environment:
       - NODE_ENV=production
       - APP_PORT=9292
+      - APP_HOST=0.0.0.0
       - UPLOADS_DIR=assets/uploads
       - DB_PATH=assets/app.db

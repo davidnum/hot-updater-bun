@@ -25,5 +25,3 @@ WORKDIR /app
 COPY --from=build /app/server server
 
 CMD ["./server"]
-
-EXPOSE 9292
