@@ -28,7 +28,6 @@ const repo = new Repository(new Database(Config.DB_PATH, { strict: true }));
 const fileStorage = new FileStorage(Config.UPLOADS_DIR);
 
 new Elysia()
-  .use(logger({ autoLogging: true }))
   .use(swagger())
   .use(
     authPlugin({
@@ -36,6 +35,7 @@ new Elysia()
       whiteList: ['/swagger', '/checkUpdate', '/files'],
     })
   )
+  .use(logger())
   .post(
     '/uploadBundle',
     async ({ body: { bundleId, file }, request }) => {
