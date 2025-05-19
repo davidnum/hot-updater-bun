@@ -1,26 +1,31 @@
 import Elysia from 'elysia';
 
 type Options = {
-  secret: string;
+  secret?: string;
   whiteList: string[];
 };
 
-export const authPlugin =
-  (options: Options) =>
-  (app: Elysia): Elysia =>
-    app.derive(({ headers, route, set }) => {
-      if (options.whiteList.some((r) => route.startsWith(r))) {
-        return;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+export const authPlugin = (options: Options) =>
+  new Elysia()
+    .derive({ as: 'scoped' }, ({ headers, route }) => {
+      if (!options.secret || options.whiteList.some((r) => route.startsWith(r))) {
+        return { isAuthenticated: true };
       }
 
       const secret = headers['secret'];
-      if (
-        typeof secret !== 'string' ||
-        typeof options.secret !== 'string' ||
-        secret.length !== options.secret.length ||
-        !crypto.timingSafeEqual(Buffer.from(secret), Buffer.from(options.secret))
-      ) {
-        set.status = 401;
-        throw new Error('Unauthorized');
-      }
+      const isAuthenticated =
+        typeof secret === 'string' &&
+        typeof options.secret === 'string' &&
+        secret.length === options.secret.length &&
+        crypto.timingSafeEqual(Buffer.from(secret), Buffer.from(options.secret));
+
+      return { isAuthenticated };
+    })
+    .guard({
+      beforeHandle: ({ isAuthenticated, set }) => {
+        if (!isAuthenticated) {
+          return (set.status = 'Unauthorized');
+        }
+      },
     });
