@@ -28,7 +28,17 @@ const repo = new Repository(new Database(Config.DB_PATH, { strict: true }));
 const fileStorage = new FileStorage(Config.UPLOADS_DIR);
 
 new Elysia()
-  .use(swagger())
+  .use(
+    swagger({
+      documentation: {
+        info: {
+          title: 'HotUpdater documentation',
+          version: '1.0.0',
+          description: 'Standalone server implementation for https://github.com/gronxb/hot-updater',
+        },
+      },
+    })
+  )
   .use(
     authPlugin({
       secret: Config.SECRET,
