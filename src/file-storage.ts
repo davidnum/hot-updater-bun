@@ -5,7 +5,6 @@ export class FileStorage {
   constructor(private readonly uploadsDir: string) {}
 
   public saveFile = async (bundleId: string, file: File): Promise<void> => {
-    // const buffer = await file.arrayBuffer();
     const filePath = join(this.uploadsDir, bundleId);
     Bun.write(filePath, file);
   };

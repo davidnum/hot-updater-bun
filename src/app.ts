@@ -4,7 +4,7 @@ import { logger } from '@bogeychan/elysia-logger';
 import swagger from '@elysiajs/swagger';
 import { Config } from './config';
 import { authPlugin } from './auth-plugin';
-import { makeFileUrl, NIL_UUID } from './utils';
+import { ensureFolderExists, makeFileUrl, NIL_UUID } from './utils';
 import { Repository } from './repository';
 import Database from 'bun:sqlite';
 import { FileStorage } from './file-storage';
@@ -21,6 +21,9 @@ const BundleSchema = t.Object({
   channel: t.String(),
 });
 
+ensureFolderExists(Config.DB_PATH);
+ensureFolderExists(Config.UPLOADS_DIR);
+
 const repo = new Repository(new Database(Config.DB_PATH, { strict: true }));
 const fileStorage = new FileStorage(Config.UPLOADS_DIR);
 
@@ -29,7 +32,7 @@ new Elysia()
   .use(swagger())
   .use(
     authPlugin({
-      secret: Config.SECRET || '',
+      secret: Config.SECRET,
       whiteList: ['/swagger', '/checkUpdate', '/files'],
     })
   )
