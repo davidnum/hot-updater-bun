@@ -6,9 +6,9 @@ type Options = {
 };
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const authPlugin = (options: Options) =>
-  new Elysia()
-    .derive({ as: 'scoped' }, ({ headers, route }) => {
+export const authPlugin = (options: Options) => (app: Elysia) =>
+  app
+    .derive(({ headers, route }) => {
       if (!options.secret || options.whiteList.some((r) => route.startsWith(r))) {
         return { isAuthenticated: true };
       }

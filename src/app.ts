@@ -36,6 +36,21 @@ new Elysia()
           version: '1.0.0',
           description: 'Standalone server implementation for https://github.com/gronxb/hot-updater',
         },
+        components: {
+          securitySchemes: {
+            SecretAuth: {
+              type: 'apiKey',
+              in: 'header',
+              name: 'secret',
+              description: 'Secret for protected routes of the API',
+            },
+          },
+        },
+      },
+      scalarConfig: {
+        authentication: {
+          preferredSecurityScheme: 'SecretAuth',
+        },
       },
     })
   )
@@ -64,6 +79,7 @@ new Elysia()
         bucketName: t.String(),
         key: t.String(),
       }),
+      detail: { security: [{ SecretAuth: [] }] },
     }
   )
   .post(
@@ -79,6 +95,7 @@ new Elysia()
       response: t.Object({
         success: t.Boolean(),
       }),
+      detail: { security: [{ SecretAuth: [] }] },
     }
   )
   .get(
@@ -96,6 +113,7 @@ new Elysia()
     },
     {
       response: BundleSchema,
+      detail: { security: [{ SecretAuth: [] }] },
     }
   )
   .get(
@@ -110,6 +128,7 @@ new Elysia()
     },
     {
       response: t.Array(BundleSchema),
+      detail: { security: [{ SecretAuth: [] }] },
     }
   )
   .post(
@@ -135,6 +154,7 @@ new Elysia()
       response: t.Object({
         success: t.Boolean(),
       }),
+      detail: { security: [{ SecretAuth: [] }] },
     }
   )
   .get(
