@@ -42,6 +42,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Pull latest image
+        run: |
+          docker --context remote pull ${{ steps.meta.outputs.tags }}
+
       - name: Docker compose
         env:
           IMAGE_REF: ${{ steps.meta.outputs.tags }}
