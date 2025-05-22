@@ -27,7 +27,7 @@ ensureFolderExists(Config.UPLOADS_DIR);
 const repo = new Repository(new Database(Config.DB_PATH, { strict: true }));
 const fileStorage = new FileStorage(Config.UPLOADS_DIR);
 
-new Elysia()
+const app = new Elysia()
   .use(
     swagger({
       documentation: {
@@ -244,4 +244,4 @@ new Elysia()
   });
 
 // eslint-disable-next-line no-console
-console.log(`Server is running at ${Config.APP_HOST}:${Config.APP_PORT}`);
+console.log(`Server is running at ${app.server?.url}`);
